@@ -1,0 +1,27 @@
+{
+  "name": "sheets",
+  "version": "1.0.0",
+  "description": "Google Sheets like website",
+  "main": "server.js",
+  "dependencies": {
+    "mysql": "^2.17.1",
+    "static-server": "^2.2.1",
+    "ws": "^7.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "config": "./setup.sh",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valentinvarbanov/sheets.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/valentinvarbanov/sheets/issues"
+  },
+  "homepage": "https://github.com/valentinvarbanov/sheets#readme"
+}

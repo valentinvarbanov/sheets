@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Login</title>
+        <link rel="stylesheet" href="css/master.css">
+        <script type="text/javascript" src="js/main.js" charset="utf-8" defer></script>
+    </head>
+    <body onload="generateID()">
+        <div class="container">
+            <div class="registerTitle">
+                Shared Table
+            </div>
+            <div class="registerContainer">
+                <form class="register"
+                      id="registration"
+                      action="sheet.html"
+                      method="get">
+
+                    <input type="text"
+                           id="idField"
+                           placeholder="Identifier"
+                           name="id"
+                           pattern="^[a-zA-Z0-9]{5}$" title="Please enter a valid id" required>
+
+                    <input class="registerButton"
+                           type="submit"
+                           onclick="generateClicked()"
+                           value="Generate">
+
+                    <input class="registerButton"
+                           type="submit"
+                           onclick="openClicked()"
+                           value="Open">
+                </form>
+            </div>
+        </div>
+
+    </body>
+</html>

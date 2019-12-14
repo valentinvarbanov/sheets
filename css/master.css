@@ -1,0 +1,76 @@
+body {
+    position: relative;
+}
+
+.container {
+    /* some very clever code to center the div */
+    -webkit-transform: translate(50%,50%);
+    transform: translate(50%,50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    margin-left: -300px;
+
+    background-color: #F5F5EF;
+    font-family: sans-serif;
+    font-size: 16px;
+    text-align: center;
+}
+
+.registerContainer {
+    border: 1px solid #878787;
+    border-top: none;
+}
+
+.register {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: block;
+    align-items: center;
+}
+
+input {
+    width: 80%;
+    padding: 6px;
+    margin: 10px;
+    border: 1px;
+    border-style: solid;
+    box-sizing: content-box;
+}
+
+input:focus {
+    outline: none;
+}
+
+input[type=text], input[type=password] {
+    border-color: #C3C3C3;
+}
+input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+}
+
+input[type=submit] {
+    background-color: #98BD29;
+    color: white;
+    font-weight: bold;
+    border-color: #98BD29;
+}
+input[type=submit]:focus {
+    background-color: #657C20;
+}
+
+.registerTitle {
+    background-color: #98BD29;
+    color: white;
+    padding: 7px;
+    font-weight: bold;
+}
+
+body {
+    background-image: linear-gradient(to bottom right, white, #657C20);
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

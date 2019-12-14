@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>WebSocket</title>
+        <link rel="stylesheet" href="css/sheet.css">
+        <script type="text/javascript" src="js/sheet.js" charset="utf-8" defer></script>
+    </head>
+    <body onload="load()">
+        <center>
+            <div>
+            <h1 id="mainTitle" onclick="copyLink()"></h1>
+            <input type="text" value="" id="pageLink" oninput="loadLink()" onclick="copyLink()">
+        </div>
+            <table id="main-sheet" class="tableStyle"></table>
+        </center>
+        <div id="snackbar">Link copied ...</div>
+        <div id="debug">
+            <div id="log"></div>
+            <input id="msg" type="textbox" onkeypress="onkey(event)"/>
+            <button onclick="send()">Send</button>
+            <button onclick="quit()">Quit</button>
+            <button onclick="reconnect()">Reconnect</button>
+        </div>
+    </body>
+</html>

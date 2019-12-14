@@ -1,0 +1,123 @@
+html,body {
+    font:normal 0.9em arial,helvetica;
+}
+#log {
+    width:600px;
+    height:300px;
+    border:1px solid #7F9DB9;
+    overflow:auto;
+}
+#msg {
+  width:400px;
+}
+
+h1 {
+  color: #878787;
+}
+
+table.tableStyle {
+    table-layout: fixed;
+    border: 3px solid #C3C3C3;
+    background-color: #EEEEEE;
+    width: 1000px;
+    text-align: center;
+    border-collapse: collapse;
+}
+table.tableStyle td, table.tableStyle th {
+    border: 1px solid #AAAAAA;
+    padding: 5px 2px;
+}
+table.tableStyle tbody td {
+    font-size: 13px;
+}
+table.tableStyle tr:nth-child(even) {
+    background: #DDDDDD;
+}
+table.tableStyle thead {
+    background: #98BD29;
+    border-bottom: 2px solid #C3C3C3;
+}
+table.tableStyle thead th {
+    font-size: 15px;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    border-left: 2px solid #C3C3C3;
+}
+table.tableStyle thead th:first-child {
+    border-left: none;
+}
+
+table.tableStyle tfoot td {
+    font-size: 14px;
+}
+table.tableStyle tfoot .links {
+    text-align: right;
+}
+table.tableStyle tfoot .links a{
+    display: inline-block;
+    background: #657C20;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 5px;
+}
+
+#pageLink {
+    width: 30%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#mainTitle {
+    font-size: 40px;
+}
+
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+body {
+    background-image: linear-gradient(to bottom right, white, #657C20);
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

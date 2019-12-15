@@ -1,6 +1,7 @@
 const StaticServer = require('static-server');
 const WebSocket    = require('ws');
 const mysql        = require('mysql');
+const express      = require('express');
 
 //mysql
 var sql_pool  = mysql.createPool({
@@ -129,7 +130,7 @@ async function handleDataRequest(ws, id) {
             'col': e.col,
             'value': e.value
         }
-    }, []);
+    });
 
     ws.send(JSON.stringify({
         'type': 'data',
@@ -177,3 +178,43 @@ function handleMessage(ws, data) {
         cellBlur(ws, ws.tableID, data);
     }
 }
+
+
+// rest api
+var api = express();
+
+api.get('/table/:id', async (req, res) => {
+    let tableID = req.params.id;
+    console.log('GET /table/' + tableID);
+
+    let data = await sql_fetch_table_data(tableID);
+
+    let processed = data.reduce((acc, e) => {
+
+        acc[e.row] = acc[e.row] || [];
+        acc[e.row][e.col] = e.value;
+
+        return acc;
+    }, []);
+
+    var csvData = '';
+    for (var i = 0; i < processed.length; i++) {
+        if (processed[i]) {
+            for (var j = 0; j < processed[i].length; j++) {
+                if (processed[i][j]) {
+                    csvData += processed[i][j];
+                }
+                csvData += ',';
+            }
+        }
+        csvData += ',\n';
+    }
+    res.set('Access-Control-Allow-Origin', '*');
+    res.end(csvData);
+
+});
+
+var restServer = api.listen(10000, () => {
+    var port = restServer.address().port
+    console.log("API server listening on ", port)
+});

@@ -228,14 +228,48 @@ function loadLink() {
 }
 
 function copyLink() {
-  let copyText = $('pageLink');
-  copyText.select();
-  copyText.setSelectionRange(0, 99999)
-  document.execCommand('copy');
+    let copyText = $('pageLink');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand('copy');
 
-  let x = document.getElementById("snackbar");
-  x.className = "show";
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    let x = document.getElementById("snackbar");
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+function downloadCSV() {
+    let client = new XMLHttpRequest();
+    client.open('GET', '/ip');
+    client.onreadystatechange = function() {
+        if (client.responseText) {
+            const ip = client.responseText;
+            const url = 'http://' + ip.trim() + ':10000' + '/table/' + getID();
+            let request = new XMLHttpRequest();
+            request.open('GET', url);
+            request.onreadystatechange = function() {
+                if (request.responseText) {
+                    downloadFileWithContents(getID() + '.csv', request.responseText);
+                }
+            }
+            request.send();
+        }
+    }
+    client.send();
+}
+
+
+function downloadFileWithContents(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
 }
 
 

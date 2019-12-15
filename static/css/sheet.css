@@ -27,6 +27,11 @@ table.tableStyle td, table.tableStyle th {
     border: 1px solid #AAAAAA;
     padding: 5px 2px;
 }
+
+table.tableStyle td.edited {
+    border: 2px solid #26D9AC;
+    color: #26D9AC;
+}
 table.tableStyle tbody td {
     font-size: 13px;
 }

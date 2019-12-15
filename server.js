@@ -31,23 +31,24 @@ server.start(function () {
 });
 
 wsServer.on('connection', (ws) => {
-  ws.on('message', (message) => {
-      try {
-          let received = JSON.parse(message);
-          handleMessage(ws, received);
-      } catch(ex) {
-          console.log(ex);
-      }
-    //console.log('received: %s', message);
-  });
+    ws.on('message', (message) => {
+        try {
+            let received = JSON.parse(message);
+            handleMessage(ws, received);
+        } catch(ex) {
+            console.log(ex);
+        }
+        console.log('received: %s', message);
+    });
 
-  ws.on('close', (code, message) => {
-      if (ws.tableID) {
-          unsubscribe(ws, ws.tableID);
-      }
-  });
+    ws.on('close', (code, message) => {
+        if (ws.tableID) {
+            unsubscribe(ws, ws.tableID);
+        }
+        console.log('disconnected client: ', ws._socket.remoteAddress, ' port: ' + ws._socket.remotePort);
+    });
 
-  console.log('connected client: ', ws._socket.remoteAddress, ' port: ' + ws._socket.remotePort);
+    console.log('connected client: ', ws._socket.remoteAddress, ' port: ' + ws._socket.remotePort);
 });
 
 function sql_init_table(id) {
@@ -116,14 +117,7 @@ function update(ws, id, data) {
 
     sql_update_table_cell(id, data.row, data.col, data.newValue);
 
-    if (subscribers[id]) {
-        for (let connIndex = 0; connIndex < subscribers[id].length; connIndex++) {
-            let conn = subscribers[id][connIndex];
-            if (conn !== ws) {
-                conn.send(JSON.stringify(data));
-            }
-        }
-    }
+    sendToSubscribers(ws, id, data);
 }
 
 async function handleDataRequest(ws, id) {
@@ -143,6 +137,28 @@ async function handleDataRequest(ws, id) {
     }));
 }
 
+function cellFocus(ws, id, data) {
+
+    sendToSubscribers(ws, id, data);
+}
+
+function cellBlur(ws, id, data) {
+
+    sendToSubscribers(ws, id, data);
+}
+
+function sendToSubscribers(ws, id, data) {
+    if (subscribers[id]) {
+        for (let connIndex = 0; connIndex < subscribers[id].length; connIndex++) {
+            let conn = subscribers[id][connIndex];
+            if (conn !== ws) {
+                console.log('sending: ', JSON.stringify(data));
+                conn.send(JSON.stringify(data));
+            }
+        }
+    }
+}
+
 function handleMessage(ws, data) {
 
     if (data.type === 'init') {
@@ -155,5 +171,9 @@ function handleMessage(ws, data) {
         handleDataRequest(ws, ws.tableID);
     } else if (data.type === 'update') {
         update(ws, ws.tableID, data);
+    } else if (data.type === 'cell-focus') {
+        cellFocus(ws, ws.tableID, data);
+    } else if (data.type === 'cell-blur') {
+        cellBlur(ws, ws.tableID, data);
     }
 }

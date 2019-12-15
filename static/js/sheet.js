@@ -103,6 +103,8 @@ function loadTable() {
             cell.contentEditable = true;
 
             cell.oninput = function () { onCellChange(cell); };
+            cell.onfocus = function () { onCellFocus(cell); };
+            cell.onblur  = function () { onCellBlur(cell); };
 
             tableRow.appendChild(cell);
         }
@@ -148,8 +150,33 @@ function requestData() {
     })
 }
 
-function onCellFocus() {
-    // for future use
+function onCellFocus(cell) {
+    let row = cell.parentNode.rowIndex;
+    let col = cell.cellIndex;
+
+    sendSocketMessage({
+        'type': 'cell-focus',
+        'row': row,
+        'col': col
+    })
+}
+
+function onCellBlur(cell) {
+    let row = cell.parentNode.rowIndex;
+    let col = cell.cellIndex;
+    sendSocketMessage({
+        'type': 'cell-blur',
+        'row': row,
+        'col': col
+    })
+}
+
+function onCellEditingDidBegin(cell) {
+    cell.classList.add('edited');
+}
+
+function onCellEditingDidEnd(cell) {
+    cell.classList.remove('edited');
 }
 
 function onCellChange(cell) {
@@ -166,8 +193,10 @@ function onCellChange(cell) {
 }
 
 function handleMessage(received) {
+
+    let table = $('main-sheet');
+
     if (received.type == 'update') {
-        let table = $('main-sheet');
         let cell = table.rows[received.row].cells[received.col];
 
         cell.innerText = received.newValue;
@@ -181,11 +210,17 @@ function handleMessage(received) {
             let col = entry.col;
             let value = entry.value;
 
-            let table = $('main-sheet');
             let cell = table.rows[row].cells[col];
             cell.innerText = value;
         }
+    } else if (received.type == 'cell-focus') {
+        let cell = table.rows[received.row].cells[received.col];
+        onCellEditingDidBegin(cell);
+    } else if (received.type == 'cell-blur') {
+        let cell = table.rows[received.row].cells[received.col];
+        onCellEditingDidEnd(cell);
     }
+    console.log(received);
 }
 
 function loadLink() {
